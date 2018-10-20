@@ -10,8 +10,12 @@ def parse_args():
     parser.add_argument('--output', default="./output",
                         help='path to output folder')
     parser.add_argument('--size', type=int,
-                            help='image size')
-    parser.add_argument('--num_steps', default=1000, type=int,
+                            help='image size (as width)')
+    parser.add_argument('--steps', default=1000, type=int,
                         help='number of steps')
+    parser.add_argument('--style_weight', default=1000000, type=int,
+                        help='style weight')
+    parser.add_argument('--content_weight', default=1, type=int,
+                        help='content weight')
     args = parser.parse_args()
     return args

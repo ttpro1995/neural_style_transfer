@@ -50,7 +50,7 @@ class DataManager():
         self.size1 = size
         self.size2 = size2
         loader = transforms.Compose([
-            transforms.Resize((self.size1, self.size2)),  # scale imported image
+            transforms.Resize((self.size2, self.size1)),  # scale imported image h w
             transforms.ToTensor()])  # transform it into a torch tensor
         self.content = loader(original_content).unsqueeze(0).to(self.device, torch.float)
         self.style = loader(original_style).unsqueeze(0).to(self.device, torch.float)

@@ -97,7 +97,7 @@ def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
 
     # assuming that cnn is a nn.Sequential, so we make a new nn.Sequential
     # to put in modules that are supposed to be activated sequentially
-    model = nn.Sequential(normalization)
+    model = nn.Sequential(normalization).to(device)
 
     i = 0  # increment every time we see a conv
     for layer in cnn.children():
@@ -189,6 +189,7 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
 
             if run[0] % 100 == 0:
                 if output_dir is not None:
+                    input_img.data.clamp_(0, 1)
                     file_name = "output_"+str(run[0])+".png"
                     output_path = os.path.join(output_dir, file_name)
                     logging.info("output " + str(output_path))

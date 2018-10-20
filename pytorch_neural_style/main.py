@@ -18,6 +18,8 @@ from data_manager import DataManager
 from tutorial_net import run_style_transfer
 import logging
 
+
+
 if __name__ == "__main__":
     logging.basicConfig(filename='pytorch_neural_style.log', level=logging.INFO)
     logging.getLogger().addHandler(logging.StreamHandler())
@@ -25,20 +27,21 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     cnn = models.vgg19(pretrained=True).features.to(device).eval()
-    cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406])
-    cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225])
+    cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
+    cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
     arg = parse_args()
     logging.info(arg)
 
     dataman = DataManager(device, arg.content, arg.style)
     dataman.load_image(arg.size)
 
-    style_img = dataman.get_style_image()
-    content_img = dataman.get_content_image()
-    input_img = dataman.get_content_image()
+    style_img = dataman.get_style_image().to(device)
+    content_img = dataman.get_content_image().to(device)
+    input_img = dataman.get_content_image().to(device)
 
     output = run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
-                                content_img, style_img, input_img, device, output_dir=arg.output, num_steps=arg.num_steps)
+                                content_img, style_img, input_img, device, output_dir=arg.output, num_steps=arg.steps,
+                                style_weight=arg.style_weight, content_weight=arg.content_weight)
 
     torchvision.utils.save_image(output, os.path.join(arg.output, "final_output.png"))
 
