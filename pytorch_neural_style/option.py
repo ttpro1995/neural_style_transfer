@@ -11,5 +11,7 @@ def parse_args():
                         help='path to output folder')
     parser.add_argument('--size', type=int,
                             help='image size')
+    parser.add_argument('--num_steps', default=1000, type=int,
+                        help='number of steps')
     args = parser.parse_args()
     return args
