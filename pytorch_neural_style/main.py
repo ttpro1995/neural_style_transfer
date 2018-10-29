@@ -41,6 +41,7 @@ if __name__ == "__main__":
 
     output = run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
                                 content_img, style_img, input_img, device, output_dir=arg.output, num_steps=arg.steps,
+                                save_every=arg.save_every,
                                 style_weight=arg.style_weight, content_weight=arg.content_weight)
 
     torchvision.utils.save_image(output, os.path.join(arg.output, "final_output.png"))
