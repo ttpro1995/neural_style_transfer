@@ -149,12 +149,18 @@ def get_input_optimizer(input_img):
 
 def run_style_transfer(cnn, normalization_mean, normalization_std,
                        content_img, style_img, input_img, device, output_dir = None, num_steps=300,
+                       save_every=50,
                        style_weight=1000000, content_weight=1):
     """Run the style transfer."""
     print('Building the style transfer model..')
     model, style_losses, content_losses = get_style_model_and_losses(cnn,
         normalization_mean, normalization_std, style_img, content_img, device)
     optimizer = get_input_optimizer(input_img)
+
+    if output_dir is not None:
+        # make dir if not exist
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
 
     print('Optimizing..')
     run = [0]
@@ -187,7 +193,7 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
                     style_score.item(), content_score.item()))
                 print()
 
-            if run[0] % 100 == 0:
+            if run[0] % int(save_every) == 0:
                 if output_dir is not None:
                     input_img.data.clamp_(0, 1)
                     file_name = "output_"+str(run[0])+".png"
