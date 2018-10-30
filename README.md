@@ -4,7 +4,15 @@ Neural Style Transfer
 put content images in ./contents directory and style images in ./styles directory
 
 
-### How to run Pytorch Neural Style project
+##  How to run Pytorch Neural Style project
+ 
+### Requirement
+
+Install pytorch (https://pytorch.org/) with CUDA  
+
+You must have GPU to run this project.
+
+
 ```
 cd pytorch_neural_style
 ```
