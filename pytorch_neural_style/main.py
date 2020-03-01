@@ -15,7 +15,7 @@ import copy
 import os
 from option import parse_args
 from data_manager import DataManager
-from tutorial_net import run_style_transfer
+from tutorial_net_v2 import run_style_transfer
 import logging
 
 
