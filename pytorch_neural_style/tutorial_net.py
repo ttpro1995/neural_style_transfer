@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from torch.optim.lbfgs import LBFGS
 import logging
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -144,7 +145,7 @@ def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
 
 def get_input_optimizer(input_img):
     # this line to show that input is a parameter that requires a gradient
-    optimizer = optim.LBFGS([input_img.requires_grad_()])
+    optimizer = LBFGS([input_img.requires_grad_()])
     return optimizer
 
 def run_style_transfer(cnn, normalization_mean, normalization_std,
