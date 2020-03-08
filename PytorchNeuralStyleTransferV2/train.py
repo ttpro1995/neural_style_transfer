@@ -18,6 +18,7 @@ import torchvision.models as models
 import util
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--name", default="transfer", help='file_name')
 parser.add_argument("--cuda", action="store_true", help='enables cuda')
 parser.add_argument('--imageSize', type=int, default=512, help='the height / width of the input image to network')
 parser.add_argument("--style_image", default="images/picasso.jpg", help='path to style image')
@@ -28,8 +29,8 @@ parser.add_argument("--outf", default="images/", help='folder to output images a
 parser.add_argument("--manualSeed", type=int, help='manual seed')
 parser.add_argument("--content_weight", type=int, default=5e0, help='content loss weight')
 parser.add_argument("--style_weight", type=int, default=1e2, help='style loss weight')
-parser.add_argument("--content_layers", default="conv_4", help='layers for content')
-parser.add_argument("--style_layers", default="conv_1,conv_2,conv_3,conv_4,conv_5", help='layers for style')
+parser.add_argument("--content_layers", default="r42", help='layers for content')
+parser.add_argument("--style_layers", default="r11,r21,r31,r41,r51", help='layers for style')
 parser.add_argument("--vgg_dir", default="models/vgg_conv.pth", help='path to pretrained VGG19 net')
 parser.add_argument("--color_histogram_matching", action="store_true", help='using histogram matching to preserve color in content image')
 parser.add_argument("--luminance_only", action="store_true", help='perform neural style transfer only on luminance to preserve color in content image')
@@ -73,15 +74,19 @@ def load_image(path,style=False):
     img = img.unsqueeze(0)
     return img
 
-def save_image(img):
+def save_image(img, epoch, luminance_only=False):
     post = transforms.Compose([transforms.Lambda(lambda x: x.mul_(1./255)),
          transforms.Normalize(mean=[-0.40760392, -0.45795686, -0.48501961], std=[1,1,1]),
          transforms.Lambda(lambda x: x[torch.LongTensor([2,1,0])]), #turn to RGB
          ])
     img = post(img)
     img = img.clamp_(0,1)
+    save_path = os.path.join(opt.outf, opt.name + "_" + str(epoch))
+    if luminance_only:
+        save_path+= "_luminance_only"
+    save_path+= ".png"
     vutils.save_image(img,
-                '%s/transfer.png' % (opt.outf),
+                save_path,
                 normalize=True)
     return
 
@@ -111,9 +116,9 @@ if(opt.cuda):
     contentImg = contentImg.cuda()
 
 ###############   MODEL   ####################
-# vgg = VGG()
+vgg = VGG()
 # vgg.load_state_dict(torch.load(opt.vgg_dir))
-vgg = models.vgg19(pretrained=True)
+# vgg = models.vgg19(pretrained=True)
 for param in vgg.parameters():
     param.requires_grad = False
 if(opt.cuda):
@@ -190,6 +195,7 @@ if(opt.cuda):
 
 for iteration in range(1,opt.niter+1):
     print('Iteration [%d]/[%d]'%(iteration,opt.niter))
+    run_count = [0]
     def closure():
         optimizer.zero_grad()
         out = vgg(optImg,loss_layers)
@@ -201,13 +207,25 @@ for iteration in range(1,opt.niter+1):
             totalLossList.append(loss_i(layer_output,target_i) * weights[i])
         totalLoss = sum(totalLossList)
         totalLoss.backward()
-        print('loss: %f'%(totalLoss.data[0]))
+        run_count[0] += 1
+        if run_count[0] % 10 == 0:
+            print('loss: %f'%(totalLoss.item()))
         return totalLoss
     optimizer.step(closure)
+
+    if iteration % 10 == 0:
+        outImg = optImg.data[0].cpu()
+        if (opt.luminance_only):
+            outImg = np.expand_dims(outImg.numpy(), 0)
+            outImg = util.join_yiq_to_bgr(outImg, content_iq)
+            save_image(torch.from_numpy(outImg).squeeze(), iteration)
+        else:
+            save_image(outImg.squeeze(), iteration)
+
 outImg = optImg.data[0].cpu()
 if(opt.luminance_only):
     outImg = np.expand_dims(outImg.numpy(),0)
     outImg = util.join_yiq_to_bgr(outImg,content_iq)
-    save_image(torch.from_numpy(outImg).squeeze())
+    save_image(torch.from_numpy(outImg).squeeze(), "final")
 else:
-    save_image(outImg.squeeze())
+    save_image(outImg.squeeze(), "final")

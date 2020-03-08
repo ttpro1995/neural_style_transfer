@@ -57,18 +57,18 @@ class VGG(nn.Module):
         out['r31'] = F.relu(self.conv3_1(out['p2']))
         out['r32'] = F.relu(self.conv3_2(out['r31']))
         out['r33'] = F.relu(self.conv3_3(out['r32']))
-        out['r34'] = F.relu(self.conv3_4(out['r33']))
-        out['p3'] = self.pool3(out['r34'])
+
+        out['p3'] = self.pool3(out['r33'])
         out['r41'] = F.relu(self.conv4_1(out['p3']))
         out['r42'] = F.relu(self.conv4_2(out['r41']))
         out['r43'] = F.relu(self.conv4_3(out['r42']))
-        out['r44'] = F.relu(self.conv4_4(out['r43']))
-        out['p4'] = self.pool4(out['r44'])
+
+        out['p4'] = self.pool4(out['r43'])
         out['r51'] = F.relu(self.conv5_1(out['p4']))
         out['r52'] = F.relu(self.conv5_2(out['r51']))
         out['r53'] = F.relu(self.conv5_3(out['r52']))
-        out['r54'] = F.relu(self.conv5_4(out['r53']))
-        out['p5'] = self.pool5(out['r54'])
+
+        out['p5'] = self.pool5(out['r53'])
         return [out[key] for key in out_keys]
 
     def _initialize_weights(self):
