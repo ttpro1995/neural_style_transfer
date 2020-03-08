@@ -15,19 +15,15 @@ class VGG(nn.Module):
         self.conv3_1 = nn.Conv2d(128, 256, kernel_size=3, padding=1)
         self.conv3_2 = nn.Conv2d(256, 256, kernel_size=3, padding=1)
         self.conv3_3 = nn.Conv2d(256, 256, kernel_size=3, padding=1)
-        self.conv3_4 = nn.Conv2d(256, 256, kernel_size=3, padding=1)
+        # self.conv3_4 = nn.Conv2d(256, 256, kernel_size=3, padding=1)
         self.conv4_1 = nn.Conv2d(256, 512, kernel_size=3, padding=1)
         self.conv4_2 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
         self.conv4_3 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
-        self.conv4_4 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
-        self.conv4_1 = nn.Conv2d(256, 512, kernel_size=3, padding=1)
-        self.conv4_2 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
-        self.conv4_3 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
-        self.conv4_4 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
+        # self.conv4_4 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
         self.conv5_1 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
         self.conv5_2 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
         self.conv5_3 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
-        self.conv5_4 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
+        # self.conv5_4 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
         if pool == 'max':
             self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
             self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
@@ -40,14 +36,14 @@ class VGG(nn.Module):
             self.pool3 = nn.AvgPool2d(kernel_size=2, stride=2)
             self.pool4 = nn.AvgPool2d(kernel_size=2, stride=2)
             self.pool5 = nn.AvgPool2d(kernel_size=2, stride=2)
-        # if not load_weights:
-        #     mod = models.vgg16(pretrained=True)
-        #     self._initialize_weights()
-        #     fsd = collections.OrderedDict()
-        #     for i in range(len(self.state_dict().items())):
-        #         temp_key = list(self.state_dict().items())[i][0]
-        #         fsd[temp_key] = list(mod.state_dict().items())[i][1]
-        #     self.load_state_dict(fsd)
+        if not load_weights:
+            mod = models.vgg16(pretrained=True)
+            self._initialize_weights()
+            fsd = collections.OrderedDict()
+            for i in range(len(self.state_dict().items())):
+                temp_key = list(self.state_dict().items())[i][0]
+                fsd[temp_key] = list(mod.state_dict().items())[i][1]
+            self.load_state_dict(fsd)
 
 
     def forward(self, x, out_keys):
