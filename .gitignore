@@ -4,3 +4,9 @@ pytorch_neural_style/__pycache__/
 pytorch_neural_style/\.idea/
 
 .idea/
+
+notebook/.ipynb_checkpoints/
+
+PytorchNeuralSytleTransferV2/__pycache__/
+
+*.pyc

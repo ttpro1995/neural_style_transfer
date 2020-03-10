@@ -5,3 +5,6 @@ Install requirements
 
  
 
+```shell script
+pip install color_transfer
+```

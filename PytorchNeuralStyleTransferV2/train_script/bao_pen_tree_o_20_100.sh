@@ -1,0 +1,11 @@
+CUDA_VISIBLE_DEVICES=0 python train.py \
+--name bao_pen_tree_o_C20_T100_ \
+--cuda \
+--content_image content/bao2.jpg \
+--style_image style/pen_tree.jpg \
+--content_weight 20 \
+--style_weight 100 \
+--outf output/  \
+--save_niter  10 \
+--lr 5 \
+--niter 1001

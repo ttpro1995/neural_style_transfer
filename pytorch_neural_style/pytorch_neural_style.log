@@ -1,0 +1,39 @@
+INFO:root:Namespace(content='../contents/team_party.jpg', content_weight=1, output='./output/output_party_pen_stalin', save_every=20, size=None, steps=1000, style='../styles/pen_stalin.jpg', style_weight=1000000)
+INFO:root:loaded image with size 1280 960
+INFO:root:Namespace(content='../contents/content1.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/pen_stalin.jpg', style_weight=1000000)
+INFO:root:loaded image with size 720 960
+INFO:root:Namespace(content='../contents/content1.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/pen_stalin.jpg', style_weight=1000000)
+INFO:root:loaded image with size 720 960
+INFO:root:output ./output/test1/output_20.png
+INFO:root:Namespace(content='../contents/content1.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/pen_stalin.jpg', style_weight=1000000)
+INFO:root:loaded image with size 720 960
+INFO:root:output ./output/test1/output_20.png
+INFO:root:Namespace(content='../contents/content1.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/pen_stalin.jpg', style_weight=1000000)
+INFO:root:loaded image with size 720 960
+INFO:root:Namespace(content='../contents/content1.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/pen_stalin.jpg', style_weight=1000000)
+INFO:root:loaded image with size 720 960
+INFO:root:output ./output/test1/output_20.png
+INFO:root:Namespace(content='../contents/content1.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/pen_stalin.jpg', style_weight=1000000)
+INFO:root:loaded image with size 720 960
+INFO:root:Namespace(content='../contents/content1.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/pen_stalin.jpg', style_weight=1000000)
+INFO:root:loaded image with size 720 960
+INFO:root:Namespace(content='../contents/content1.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/pen_stalin.jpg', style_weight=1000000)
+INFO:root:loaded image with size 720 960
+INFO:root:Namespace(content='../contents/content1.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/pen_stalin.jpg', style_weight=1000000)
+INFO:root:loaded image with size 720 960
+INFO:root:Namespace(content='../contents/dancing.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/picasso.jpg', style_weight=1000000)
+INFO:root:loaded image with size 444 444
+INFO:root:output ./output/test1/output_20.png
+INFO:root:Namespace(content='../contents/dancing.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/picasso.jpg', style_weight=1000000)
+INFO:root:loaded image with size 444 444
+INFO:root:output ./output/test1/output_20.png
+INFO:root:Namespace(content='../contents/dancing.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/picasso.jpg', style_weight=1000000)
+INFO:root:loaded image with size 444 444
+INFO:root:Namespace(content='../contents/dancing.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/picasso.jpg', style_weight=1000000)
+INFO:root:loaded image with size 444 444
+INFO:root:Namespace(content='../contents/dancing.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/picasso.jpg', style_weight=1000000)
+INFO:root:loaded image with size 444 444
+INFO:root:Namespace(content='../contents/dancing.jpg', content_weight=1, output='./output/test1', save_every=20, size=None, steps=1000, style='../styles/picasso.jpg', style_weight=1000000)
+INFO:root:loaded image with size 444 444
+INFO:root:Namespace(content='../contents/dancing.jpg', content_weight=1, output='./output/test1', save_every=20, size=200, steps=1000, style='../styles/picasso.jpg', style_weight=1000000)
+INFO:root:loaded image with size 200 200
