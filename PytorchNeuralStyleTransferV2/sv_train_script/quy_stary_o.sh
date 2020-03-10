@@ -1,0 +1,12 @@
+CUDA_VISIBLE_DEVICES=1 nohup python train.py \
+--name quy_stary_o_C1_T100_ \
+--cuda \
+--content_image content/quy.jpg \
+--style_image style/the-starry-night-over-the-rhone.jpg \
+--content_weight 1 \
+--style_weight 100 \
+--imageSize 1080 \
+--outf output/  \
+--save_niter  20 \
+--lr 10 \
+--niter 300 > log/quy_stary_o_C1_T100_.log  &
