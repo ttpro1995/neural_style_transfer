@@ -99,8 +99,8 @@ def save_image(img, epoch, luminance_only=False, note=""):
     return
 
 if(opt.color_histogram_matching):
-    styleImg = transform(util.open_and_resize_image(opt.style_image,256)) # 1x3x512x512
-    contentImg = transform(util.open_and_resize_image(opt.content_image,256)) # 1x3x512x512
+    styleImg = transform(util.open_and_resize_image(opt.style_image,opt.imageSize)) # 1x3x512x512
+    contentImg = transform(util.open_and_resize_image(opt.content_image,opt.imageSize)) # 1x3x512x512
     styleImg = styleImg.unsqueeze(0)
     contentImg = contentImg.unsqueeze(0)
 
@@ -108,8 +108,8 @@ if(opt.color_histogram_matching):
     styleImg = Variable(torch.from_numpy(styleImg))
     contentImg = Variable(contentImg)
 elif(opt.luminance_only):
-    styleImg = transform(util.open_and_resize_image(opt.style_image,256)) # 1x3x512x512
-    contentImg = transform(util.open_and_resize_image(opt.content_image,256)) # 1x3x512x512
+    styleImg = transform(util.open_and_resize_image(opt.style_image,opt.imageSize)) # 1x3x512x512
+    contentImg = transform(util.open_and_resize_image(opt.content_image,opt.imageSize)) # 1x3x512x512
     styleImg = styleImg.unsqueeze(0)
     contentImg = contentImg.unsqueeze(0)
     styleImg,contentImg,content_iq, style_iq = util.luminance_transfer(styleImg.numpy(),contentImg.numpy())

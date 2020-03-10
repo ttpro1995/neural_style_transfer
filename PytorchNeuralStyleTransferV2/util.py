@@ -7,10 +7,17 @@ import six
 import colorsys
 import time
 
-def open_and_resize_image(path, target_width):
+def open_and_resize_image(path, size):
+
     image = Image.open(path).convert('RGB')
     width, height = image.size
-    target_height = int(round(float(height * target_width) / width))
+    if (height > width):
+        target_width = size
+        target_height = int(round(float(height * target_width) / width))
+    else:
+        target_height = size
+        target_width = int(round(float(width * target_height) / height))
+
     image = image.resize((target_width, target_height), Image.BILINEAR)
     return image
 
