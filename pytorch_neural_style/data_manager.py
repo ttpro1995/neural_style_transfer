@@ -2,7 +2,8 @@ from PIL import Image
 import torchvision.transforms as transforms
 import torch
 import logging
-
+import cv2
+from skimage.color import yiq2rgb, rgb2yiq
 
 class DataManager():
     def __init__(self, device, content_path = None, style_path = None):
@@ -54,6 +55,8 @@ class DataManager():
             transforms.ToTensor()])  # transform it into a torch tensor
         self.content = loader(original_content).unsqueeze(0).to(self.device, torch.float)
         self.style = loader(original_style).unsqueeze(0).to(self.device, torch.float)
+        self.content_yiq = loader(rgb2yiq(original_content)).unsqueeze(0).to(self.device, torch.float)
+        self.style_yiq = loader(rgb2yiq(original_style)).unsqueeze(0).to(self.device, torch.float)
         logging.info("loaded image with size " + str(self.size1) + " " + str(self.size2))
 
     def get_content_image(self):
@@ -62,3 +65,18 @@ class DataManager():
     def get_style_image(self):
         return self.style.clone()
 
+    def get_content_image_yiq(self):
+        return self.content_yiq
+
+    def get_style_image_yiq(self):
+        return self.style_yiq
+
+
+if __name__ == "__main__":
+    dataman = DataManager("cpu", "images/content.jpg", "images/style.jpg")
+    dataman.load_image(500)
+    content = dataman.get_content_image()
+    style = dataman.get_style_image()
+    print(type(content.shape))
+    print(content.shape)
+    print("meow")

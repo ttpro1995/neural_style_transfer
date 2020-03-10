@@ -5,6 +5,7 @@ import scipy.misc
 from matplotlib import pyplot as plt
 import six
 import colorsys
+import time
 
 def open_and_resize_image(path, target_width):
     image = Image.open(path).convert('RGB')
@@ -69,4 +70,12 @@ def luminance_transfer(x,y):
     y_l_std = np.std(y_l)
 
     x_l = (y_l_std/x_l_std)*(x_l - x_l_mean) + y_l_mean
-    return x_l, y_l, y_iq
+    return x_l, y_l, y_iq, x_iq
+
+
+def get_readable_time():
+    """
+    make human readable time with format year-month-day hour-minute
+    :return: a string of human readable time (ex: '2020-02-24 10:31' )
+    """
+    return time.strftime('%Y-%m-%d %H:%M')

@@ -1,0 +1,11 @@
+CUDA_VISIBLE_DEVICES=0 python train.py \
+--name team_party_pen_landscape_original_C20_T100_ \
+--cuda \
+--content_image content/team_party.jpg \
+--style_image style/pen_landscape_wc5021.jpg \
+--content_weight 20 \
+--style_weight 100 \
+--outf output/  \
+--save_niter  10 \
+--lr 5 \
+--niter 1001

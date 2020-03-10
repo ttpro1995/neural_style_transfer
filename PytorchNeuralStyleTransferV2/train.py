@@ -18,12 +18,14 @@ import torchvision.models as models
 import util
 
 parser = argparse.ArgumentParser()
+
 parser.add_argument("--name", default="transfer", help='file_name')
 parser.add_argument("--cuda", action="store_true", help='enables cuda')
 parser.add_argument('--imageSize', type=int, default=512, help='the height / width of the input image to network')
 parser.add_argument("--style_image", default="images/picasso.jpg", help='path to style image')
 parser.add_argument("--content_image", default="images/dancing.jpg", help='path to style image')
 parser.add_argument("--niter", type=int, default=100, help='number of epochs to train for')
+parser.add_argument("--save_niter", type=int, default=100, help='number of epochs per save')
 parser.add_argument("--lr", type=float, default=1e1, help='learning rate, default=0.0002')
 parser.add_argument("--outf", default="images/", help='folder to output images and model checkpoints')
 parser.add_argument("--manualSeed", type=int, help='manual seed')
@@ -62,7 +64,8 @@ cudnn.benchmark = True
 
 ###############   DATASET   ##################
 transform = transforms.Compose([
-    transforms.Scale(opt.imageSize),
+    #transforms.Scale(opt.imageSize),  #  UserWarning: The use of the transforms.Scale transform is deprecated,
+    transforms.Resize(opt.imageSize),  #please use transforms.Resize instead.  warnings.warn("The use of the transforms.Scale transform is deprecated, " +
     transforms.ToTensor(),
     transforms.Lambda(lambda x: x[torch.LongTensor([2,1,0])]), #turn to BGR
     transforms.Normalize(mean=[0.40760392, 0.45795686, 0.48501961],std=[1,1,1]),
@@ -74,16 +77,21 @@ def load_image(path,style=False):
     img = img.unsqueeze(0)
     return img
 
-def save_image(img, epoch, luminance_only=False):
+def save_image(img, epoch, luminance_only=False, note=""):
     post = transforms.Compose([transforms.Lambda(lambda x: x.mul_(1./255)),
          transforms.Normalize(mean=[-0.40760392, -0.45795686, -0.48501961], std=[1,1,1]),
          transforms.Lambda(lambda x: x[torch.LongTensor([2,1,0])]), #turn to RGB
          ])
     img = post(img)
     img = img.clamp_(0,1)
-    save_path = os.path.join(opt.outf, opt.name + "_" + str(epoch))
+    folder = os.path.join(opt.outf, opt.name)
+    if not os.path.exists(folder):
+        os.mkdir(folder)
+    save_path = os.path.join(folder, opt.name + "_" + str(epoch))
     if luminance_only:
         save_path+= "_luminance_only"
+    if len(note) > 0:
+        save_path+= note
     save_path+= ".png"
     vutils.save_image(img,
                 save_path,
@@ -104,7 +112,7 @@ elif(opt.luminance_only):
     contentImg = transform(util.open_and_resize_image(opt.content_image,256)) # 1x3x512x512
     styleImg = styleImg.unsqueeze(0)
     contentImg = contentImg.unsqueeze(0)
-    styleImg,contentImg,content_iq = util.luminance_transfer(styleImg.numpy(),contentImg.numpy())
+    styleImg,contentImg,content_iq, style_iq = util.luminance_transfer(styleImg.numpy(),contentImg.numpy())
     styleImg = Variable(torch.from_numpy(styleImg))
     contentImg = Variable(torch.from_numpy(contentImg))
 else:
@@ -194,7 +202,7 @@ if(opt.cuda):
 ###########   TRAINING   ##########
 
 for iteration in range(1,opt.niter+1):
-    print('Iteration [%d]/[%d]'%(iteration,opt.niter))
+    print(util.get_readable_time() + '  Iteration [%d]/[%d]'%(iteration,opt.niter))
     run_count = [0]
     def closure():
         optimizer.zero_grad()
@@ -213,12 +221,15 @@ for iteration in range(1,opt.niter+1):
         return totalLoss
     optimizer.step(closure)
 
-    if iteration % 10 == 0:
+    if iteration % opt.save_niter == 0:
         outImg = optImg.data[0].cpu()
         if (opt.luminance_only):
             outImg = np.expand_dims(outImg.numpy(), 0)
             outImg = util.join_yiq_to_bgr(outImg, content_iq)
-            save_image(torch.from_numpy(outImg).squeeze(), iteration)
+            save_image(torch.from_numpy(outImg).squeeze(), iteration, "_content_color_")
+            # no, it don't work that way, dimension mismatch
+            # outImg_style_color = util.join_yiq_to_bgr(outImg, style_iq)
+            # save_image(torch.from_numpy(outImg_style_color).squeeze(), iteration, "_style_color_")
         else:
             save_image(outImg.squeeze(), iteration)
 

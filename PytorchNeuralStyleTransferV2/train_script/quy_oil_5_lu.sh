@@ -1,0 +1,12 @@
+CUDA_VISIBLE_DEVICES=0 python train.py \
+--name quy_oil5_lu_C5_T100_ \
+--cuda \
+--content_image content/quy.jpg \
+--style_image style/oil_pastel_5_grade.png \
+--content_weight 5 \
+--style_weight 100 \
+--outf output/  \
+--save_niter  10 \
+--lr 5 \
+--luminance_only \
+--niter 1001
