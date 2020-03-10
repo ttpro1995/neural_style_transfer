@@ -106,6 +106,7 @@ if(opt.color_histogram_matching):
 
     styleImg = util.match_color_histogram(styleImg.numpy(),contentImg.numpy())
     styleImg = Variable(torch.from_numpy(styleImg))
+    save_image(styleImg.squeeze(), "_histogram_matching_img_")
     contentImg = Variable(contentImg)
 elif(opt.luminance_only):
     styleImg = transform(util.open_and_resize_image(opt.style_image,256)) # 1x3x512x512
