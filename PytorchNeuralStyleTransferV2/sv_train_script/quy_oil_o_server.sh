@@ -1,4 +1,4 @@
-CUDA_VISIBLE_DEVICES=2 python train.py \
+CUDA_VISIBLE_DEVICES=2 nohup python train.py \
 --name quy_oil_o_C1_T200 \
 --cuda \
 --content_image content/quy.jpg \
