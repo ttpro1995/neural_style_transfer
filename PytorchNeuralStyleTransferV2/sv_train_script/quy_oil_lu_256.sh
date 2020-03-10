@@ -1,0 +1,13 @@
+CUDA_VISIBLE_DEVICES=4 nohup python train.py \
+--name quy_oil_lu_256_C5_T100_ \
+--cuda \
+--content_image content/quy.jpg \
+--style_image style/oil_pastel.png \
+--content_weight 5 \
+--style_weight 100 \
+--imageSize 256 \
+--outf output/  \
+--save_niter  50 \
+--lr 10 \
+--luminance_only \
+--niter 1000 > log/quy_oil_lu_256_C5_T100_.log  &
