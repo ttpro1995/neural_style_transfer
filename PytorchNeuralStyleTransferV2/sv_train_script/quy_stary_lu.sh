@@ -1,5 +1,5 @@
 CUDA_VISIBLE_DEVICES=2 nohup python train.py \
---name quy_stary_lu_C1_T100_ \
+--name quy_stary_lu_C1_T100_2 \
 --cuda \
 --content_image content/quy.jpg \
 --style_image style/the-starry-night-over-the-rhone.jpg \
@@ -10,4 +10,4 @@ CUDA_VISIBLE_DEVICES=2 nohup python train.py \
 --save_niter  20 \
 --lr 10 \
 --luminance_only \
---niter 300 > log/quy_stary_lu_C1_T100_.log  &
+--niter 300 > log/quy_stary_lu_C1_T100_2.log  &
