@@ -1,5 +1,5 @@
-CUDA_VISIBLE_DEVICES=2 python train.py \
---name quy_oil_lu_C1_T100_ \
+CUDA_VISIBLE_DEVICES=1 python train.py \
+--name quy_oil_lu_C1_T200_ \
 --cuda \
 --content_image content/quy.jpg \
 --style_image style/oil_pastel.png \
@@ -8,4 +8,5 @@ CUDA_VISIBLE_DEVICES=2 python train.py \
 --outf output/  \
 --save_niter  50 \
 --lr 10 \
---niter 1001
+--luminance_only \
+--niter 1001 > log/quy_oil_lu_C1_T200.log  &
