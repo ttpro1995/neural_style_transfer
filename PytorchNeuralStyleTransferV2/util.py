@@ -66,6 +66,11 @@ def join_yiq_to_bgr(y, iq):
     y = bgr_to_yiq(y)[:,0:1,:,:]
     return yiq_to_bgr(np.concatenate((y, iq), axis=1))
 
+def join_y_without_iq(y, iq):
+    y = bgr_to_yiq(y)[:,0:1,:,:]
+    iq_zeros = np.zeros(iq.shape)
+    return yiq_to_bgr(np.concatenate((y, iq_zeros), axis=1))
+
 def luminance_transfer(x,y):
     # x: style, y:content
     x_l, x_iq = split_bgr_to_yiq(x) # 1x3x512x512

@@ -226,8 +226,10 @@ for iteration in range(1,opt.niter+1):
         outImg = optImg.data[0].cpu()
         if (opt.luminance_only):
             outImg = np.expand_dims(outImg.numpy(), 0)
+            outImgBW = util.join_y_without_iq(outImg, content_iq)
+            save_image(torch.from_numpy(outImgBW).squeeze(), iteration, luminance_only=True, note="_black_white_") # save lu channel
             outImg = util.join_yiq_to_bgr(outImg, content_iq)
-            save_image(torch.from_numpy(outImg).squeeze(), iteration, "_content_color_")
+            save_image(torch.from_numpy(outImg).squeeze(), iteration, luminance_only=True)
             # no, it don't work that way, dimension mismatch
             # outImg_style_color = util.join_yiq_to_bgr(outImg, style_iq)
             # save_image(torch.from_numpy(outImg_style_color).squeeze(), iteration, "_style_color_")
