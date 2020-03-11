@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CUDA_VISIBLE_DEVICES=0 python train.py \
+CUDA_VISIBLE_DEVICES=0 nohup python train.py \
 --name cat_picasso_lu_5_100_sv   \
 --cuda \
 --content_image content/cat.jpg \
