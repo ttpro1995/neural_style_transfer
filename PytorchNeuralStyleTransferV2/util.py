@@ -71,7 +71,32 @@ def join_y_without_iq(y, iq):
     iq_zeros = np.zeros(iq.shape)
     return yiq_to_bgr(np.concatenate((y, iq_zeros), axis=1))
 
+def join_y_without_iq2(y, i, q):
+    y = bgr_to_yiq(y)[:,0:1,:,:]
+    return yiq_to_bgr(np.concatenate([y, i, q], axis=1))
+
+def join_i_without_yq(i, y, q):
+    i = bgr_to_yiq(i)[:,0:1,:,:]
+    return yiq_to_bgr(np.concatenate([y, i, q], axis=1))
+
+def join_q_without_yi(q, y, i):
+    q = bgr_to_yiq(q)[:,0:1,:,:]
+    return yiq_to_bgr(np.concatenate([y, i, q], axis=1))
+
 def luminance_transfer(x,y):
+    # x: style, y:content
+    x_l, x_iq = split_bgr_to_yiq(x) # 1x3x512x512
+    y_l, y_iq = split_bgr_to_yiq(y)
+
+    x_l_mean = np.mean(x_l)
+    y_l_mean = np.mean(y_l)
+    x_l_std = np.std(x_l)
+    y_l_std = np.std(y_l)
+
+    x_l = (y_l_std/x_l_std)*(x_l - x_l_mean) + y_l_mean
+    return x_l, y_l, y_iq, x_iq
+
+def luminance_transfer_full(x,y):
     # x: style, y:content
     x_l, x_iq = split_bgr_to_yiq(x) # 1x3x512x512
     y_l, y_iq = split_bgr_to_yiq(y)

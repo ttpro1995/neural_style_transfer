@@ -1,6 +1,13 @@
 import torchvision.transforms as transforms
 import util
 import torch
+from util import bgr_to_yiq, yiq_to_bgr
+import numpy as np
+
+def join_y_without_iq(y, iq):
+    y = bgr_to_yiq(y)[:,0:1,:,:]
+    iq_zeros = np.zeros(iq.shape)
+    return yiq_to_bgr(np.concatenate((y, iq_zeros), axis=1))
 
 transform = transforms.Compose([
     #transforms.Scale(opt.imageSize),  #  UserWarning: The use of the transforms.Scale transform is deprecated,
@@ -16,5 +23,10 @@ contentImg = transform(util.open_and_resize_image("../content/cat.jpg", 256))  #
 styleImg = styleImg.unsqueeze(0)
 contentImg = contentImg.unsqueeze(0)
 styleImg, contentImg, content_iq, style_iq = util.luminance_transfer(styleImg.numpy(), contentImg.numpy())
+
+content_i = content_iq[:,0:1,:,:]
+content_q = content_iq[:,1:2,:,:]
+
+
 
 print(content_iq.shape)

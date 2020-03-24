@@ -130,6 +130,9 @@ elif(opt.luminance_only):
     save_image(torch.from_numpy(contentImgOut).squeeze(), 0, luminance_only=True,
                note="content_start_black_white_")  # save lu channel
 
+    # also print other channel of contentImgOut
+
+
 
 else:
     styleImg = load_image(opt.style_image) # 1x3x512x512
