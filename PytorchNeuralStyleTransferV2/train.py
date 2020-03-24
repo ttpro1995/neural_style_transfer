@@ -116,6 +116,21 @@ elif(opt.luminance_only):
     styleImg,contentImg,content_iq, style_iq = util.luminance_transfer(styleImg.numpy(),contentImg.numpy())
     styleImg = Variable(torch.from_numpy(styleImg))
     contentImg = Variable(torch.from_numpy(contentImg))
+
+    # print style and content image
+    styleImgOut = styleImg.data[0].cpu()
+    contentImgOut = contentImg.data[0].cpu()
+
+    styleImgOut = np.expand_dims(styleImgOut.numpy(), 0)
+    styleImgOut = util.join_y_without_iq(styleImgOut, style_iq)
+    save_image(torch.from_numpy(styleImgOut).squeeze(), 0, luminance_only=True,
+               note="style_black_white_")  # save lu channel
+    contentImgOut = np.expand_dims(contentImgOut.numpy(), 0)
+    contentImgOut = util.join_y_without_iq(contentImgOut, style_iq)
+    save_image(torch.from_numpy(contentImgOut).squeeze(), 0, luminance_only=True,
+               note="content_start_black_white_")  # save lu channel
+
+
 else:
     styleImg = load_image(opt.style_image) # 1x3x512x512
     contentImg = load_image(opt.content_image) # 1x3x512x512
