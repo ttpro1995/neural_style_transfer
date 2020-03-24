@@ -126,7 +126,7 @@ elif(opt.luminance_only):
     save_image(torch.from_numpy(styleImgOut).squeeze(), 0, luminance_only=True,
                note="style_black_white_")  # save lu channel
     contentImgOut = np.expand_dims(contentImgOut.numpy(), 0)
-    contentImgOut = util.join_y_without_iq(contentImgOut, style_iq)
+    contentImgOut = util.join_y_without_iq(contentImgOut, content_iq)
     save_image(torch.from_numpy(contentImgOut).squeeze(), 0, luminance_only=True,
                note="content_start_black_white_")  # save lu channel
 
