@@ -64,3 +64,19 @@ Transferred image will be stored as `images/transfer.png`
 ## Reference
 1. [https://github.com/leongatys/PytorchNeuralStyleTransfer](https://github.com/leongatys/PytorchNeuralStyleTransfer)
 2. [https://github.com/dsanno/chainer-neural-style](https://github.com/dsanno/chainer-neural-style)
+
+#####################################################
+# Training script 
+
+## Preserving Color in Neural Artistic Style Transfer
+ 
+Luminance-only : cat + picasso 
+```
+sh train_script/cat_picasso_lu.sh 
+```
+
+Color matching 
+
+```
+sh train_script/cat_picasso_hi.sh 
+```
